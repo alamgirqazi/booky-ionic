@@ -1,30 +1,36 @@
-<ion-header color="primary">
-  <ion-toolbar>
-    <ion-title text-center>Booky - Register for free</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Booky - Register</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form>
+<ion-content color="">
+  <form [formGroup]="registerForm">
     <ion-grid>
-      <ion-row color="primary" justify-content-center>
-        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div text-center>
+      <ion-row color="justify-content-center">
+        <ion-col class="ion-align-self-center" size-md="6" size-lg="5" size-xs="12">
+          <div class="ion-text-center">
             <h3>Create your account!</h3>
           </div>
-          <div padding>
+          <div class="ion-padding">
             <ion-item>
-              <ion-input name="name" type="text" placeholder="Name"></ion-input>
+              <ion-input name="name" formControlName="name" type="text" placeholder="Name"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="email" type="email" placeholder="your@email.com"></ion-input>
+              <ion-input name="email" formControlName="email" type="email" placeholder="your@email.com"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="password" type="password" placeholder="Password"></ion-input>
+              <ion-input name="password" formControlName="password" type="password" placeholder="Password"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input name="password" formControlName="confirm_password" type="password" placeholder="Password">
+              </ion-input>
             </ion-item>
           </div>
-          <div padding>
-            <ion-button size="large" type="submit" expand="block">Register</ion-button>
+          <div class="ion-padding">
+            <ion-button size="large" [disabled]="registerForm.invalid" (click)="save()" color="primary" type="submit"
+              expand="block">Register
+            </ion-button>
           </div>
         </ion-col>
       </ion-row>
