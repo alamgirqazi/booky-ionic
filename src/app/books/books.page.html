@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Booky</ion-title>
+    <ion-button slot="end" (click)="openAddModal()" color="success">
+      Add New </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="">
+  <div *ngIf="!loading">
+
+    <ion-list>
+      <ion-item *ngFor="let book of books">
+        <ion-thumbnail slot="start">
+          <ion-img *ngIf="book.image_url && book.image_url!='null'" [src]="book.image_url">
+          </ion-img>
+          <ion-img *ngIf="!book.image_url ||  book.image_url=='null' " [src]="'assets/icon/book.png'">
+          </ion-img>
+        </ion-thumbnail>
+        <ion-label>{{book.name}}</ion-label>
+        <ion-button (click)="openEditPopup(book)" fill="clear">
+          <ion-icon name="create" slot="end"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" (click)="delete(book)">
+          <ion-icon name="trash" slot="end"></ion-icon>
+        </ion-button>
+
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="loading">
+
+    <ion-list>
+      <ion-item *ngFor="let item of skeletonlist">
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+  </div>
+</ion-content>
