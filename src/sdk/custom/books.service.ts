@@ -1,34 +1,45 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { AuthService } from './../core/auth.service';
 import { BookyConfig } from '../booky.config';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  public getAllBooks(): Observable<any> {
+  public async getAllBooks(): Promise<any> {
     const url = BookyConfig.getPath() + '/books';
-
-    return this.http.get(url);
+    const token = await this.authService.getTokenFromStorage();
+    return this.http.get(url, {
+      headers: new HttpHeaders().set('Authorization', token)
+    });
   }
-  public addNewBook(data: object): Observable<any> {
+
+  public async addNewBook(data: object): Promise<any> {
     const url = BookyConfig.getPath() + '/books/add';
+    const token = await this.authService.getTokenFromStorage();
 
-    return this.http.post(url, data);
+    return this.http.post(url, data, {
+      headers: new HttpHeaders().set('Authorization', token)
+    });
   }
-  public updateBook(data): Observable<any> {
-    console.log('datadata', data);
+  public async updateBook(data): Promise<any> {
     const url = BookyConfig.getPath() + `/books/${data._id}`;
-
-    return this.http.put(url, data);
+    // const token = await this.authService.getTokenFromStorage();
+    const token = 'blabla';
+    return this.http.put(url, data, {
+      headers: new HttpHeaders().set('Authorization', token)
+    });
   }
-  public deleteBook(id: string): Observable<any> {
+  public async deleteBook(id: string): Promise<any> {
     const url = BookyConfig.getPath() + `/books/${id}`;
+    const token = await this.authService.getTokenFromStorage();
 
-    return this.http.delete(url);
+    return this.http.delete(url, {
+      headers: new HttpHeaders().set('Authorization', token)
+    });
   }
 }

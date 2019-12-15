@@ -1,5 +1,7 @@
 {
   "name": "booky-ionic",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

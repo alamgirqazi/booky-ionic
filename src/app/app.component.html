@@ -9,8 +9,14 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
-              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+            <ion-item *ngIf="p?.title!=='Logout'" [routerDirection]="'root'" [routerLink]="[p.url]">
+              <ion-icon *ngIf="p?.icon" slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+            <ion-item (click)="logout()" *ngIf="p?.title==='Logout'">
+              <ion-icon *ngIf="p?.icon" slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
                 {{p.title}}
               </ion-label>

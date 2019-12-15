@@ -1,5 +1,8 @@
-import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
+import { IsLoginGuard } from './../sdk/custom/guards/islogin.guard';
+import { NgModule } from '@angular/core';
+import { RedirectLoginGuard } from './../sdk/custom/guards/redirectlogin.guard';
 
 const routes: Routes = [
   {
@@ -13,15 +16,21 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    canActivate: [RedirectLoginGuard],
+    loadChildren: () =>
+      import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    canActivate: [RedirectLoginGuard],
+    loadChildren: () =>
+      import('./register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'books',
-    loadChildren: () => import('./books/books.module').then( m => m.BooksPageModule)
+    canActivate: [IsLoginGuard],
+    loadChildren: () =>
+      import('./books/books.module').then(m => m.BooksPageModule)
   }
 ];
 

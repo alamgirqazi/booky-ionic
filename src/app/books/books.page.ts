@@ -2,7 +2,9 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 
 import { AddnewbookComponent } from './addnewbook/addnewbook.component';
+import { AuthService } from './../../sdk/core/auth.service';
 import { BooksService } from '../../sdk/custom/books.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-books',
@@ -19,25 +21,26 @@ export class BooksPage implements OnInit {
   constructor(
     private booksService: BooksService,
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private authService: AuthService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getAll();
   }
 
-  getAll() {
+  async getAll() {
     this.loading = true;
 
-    this.booksService.getAllBooks().subscribe(
+    const observable = await this.booksService.getAllBooks();
+    observable.subscribe(
       data => {
-        console.log('got response from server', data);
-        this.loading = false;
         this.books = data.data.docs;
-      },
-      error => {
         this.loading = false;
-        console.log('error', error);
+        console.log('data', data);
+      },
+      err => {
+        console.log('err', err);
       }
     );
   }
@@ -83,9 +86,13 @@ export class BooksPage implements OnInit {
     await alert.present();
   }
 
-  deleteBook() {
+  async deleteBook() {
     this.deleteLoading = true;
-    this.booksService.deleteBook(this.selectedBook._id).subscribe(
+    const observable = await this.booksService.deleteBook(
+      this.selectedBook._id
+    );
+
+    observable.subscribe(
       data => {
         console.log('got response from server', data);
         this.deleteLoading = false;
